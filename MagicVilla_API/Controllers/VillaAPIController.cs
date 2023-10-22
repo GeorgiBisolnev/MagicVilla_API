@@ -39,6 +39,7 @@ namespace MagicVilla_API.Controllers
             var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
             if (villa == null)
             {
+                _logger.LogError($"Villa error with id - {id}");
                 return NotFound();
             }
             _logger.LogInformation($"Geting villa - {id}");
@@ -54,14 +55,17 @@ namespace MagicVilla_API.Controllers
             if (VillaStore.villaList.FirstOrDefault(u => u.Name.ToLower() == villa.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("Custom Error", "Villa already exists!");
+                _logger.LogError($"Villa create error");
                 return BadRequest(ModelState);
             }
             if (villa == null)
             {
+                _logger.LogError($"Villa create error - null");
                 return NotFound();
             }
             if (villa.Id > 0)
             {
+                _logger.LogError($"Villa create error - ID error");
                 return BadRequest();
             }
 
@@ -69,6 +73,7 @@ namespace MagicVilla_API.Controllers
 
             VillaStore.villaList.Add(villa);
 
+            _logger.LogError($"Villa create successful");
             return CreatedAtRoute("GetVilla", new { villa.Id }, villa);
             //return Ok(villa);
         }
@@ -80,17 +85,20 @@ namespace MagicVilla_API.Controllers
         {
             if (id <= 0)
             {
+                _logger.LogError($"Villa delete unsuccessful - id error");
                 return BadRequest();
             }
             var villa = VillaStore.villaList.FirstOrDefault(v => v.Id == id);
 
             if (villa == null)
             {
+                _logger.LogError($"Villa delete unsuccessful - null");
                 return NotFound();
             }
 
             VillaStore.villaList.Remove(villa);
 
+            _logger.LogError($"Villa delete successful");
             return NoContent();
         }
 
@@ -102,12 +110,14 @@ namespace MagicVilla_API.Controllers
         {
             if (villaDTO.Id != id || villaDTO==null) 
             {
+                _logger.LogError($"Villa update unsuccessful - id error");
                 return BadRequest();
             }
 
             var villa = VillaStore.villaList.FirstOrDefault (v => v.Id == id);
 
-            if (villa == null) { 
+            if (villa == null) {
+                _logger.LogError($"Villa update unsuccessful - null");
                 return NotFound();
             }
 
@@ -115,6 +125,7 @@ namespace MagicVilla_API.Controllers
             villa.Occupancy= villaDTO.Occupancy;
             villa.SquareFoot = villaDTO.SquareFoot;
 
+            _logger.LogError($"Villa update successful!");
             return NoContent();
         }
 
@@ -125,6 +136,7 @@ namespace MagicVilla_API.Controllers
         {
             if (pacthDTO==null || id<=0)
             {
+                _logger.LogError($"Villa patch unsuccessful - id error");
                 return BadRequest();
             }
 
@@ -132,6 +144,7 @@ namespace MagicVilla_API.Controllers
 
             if (villa == null)
             {
+                _logger.LogError($"Villa patch unsuccessful - null");
                 return BadRequest();
             }
             
@@ -139,9 +152,11 @@ namespace MagicVilla_API.Controllers
 
             if (!ModelState.IsValid)
             {
+                _logger.LogError($"Villa patch unsuccessful - model state not valid");
                 return BadRequest();
             }
 
+            _logger.LogError($"Villa patch successful!");
             return Ok();
         }
     }
