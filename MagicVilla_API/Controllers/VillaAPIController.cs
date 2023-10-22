@@ -73,7 +73,7 @@ namespace MagicVilla_API.Controllers
 
             VillaStore.villaList.Add(villa);
 
-            _logger.LogError($"Villa create successful");
+            _logger.LogInformation($"Villa create successful");
             return CreatedAtRoute("GetVilla", new { villa.Id }, villa);
             //return Ok(villa);
         }
@@ -98,7 +98,7 @@ namespace MagicVilla_API.Controllers
 
             VillaStore.villaList.Remove(villa);
 
-            _logger.LogError($"Villa delete successful");
+            _logger.LogInformation($"Villa delete successful");
             return NoContent();
         }
 
@@ -125,7 +125,7 @@ namespace MagicVilla_API.Controllers
             villa.Occupancy= villaDTO.Occupancy;
             villa.SquareFoot = villaDTO.SquareFoot;
 
-            _logger.LogError($"Villa update successful!");
+            _logger.LogInformation($"Villa update successful!");
             return NoContent();
         }
 
@@ -156,7 +156,7 @@ namespace MagicVilla_API.Controllers
                 return BadRequest();
             }
 
-            _logger.LogError($"Villa patch successful!");
+            _logger.LogInformation($"Villa patch successful!");
             return Ok();
         }
     }
