@@ -128,6 +128,8 @@ namespace MagicVilla_API.Controllers
             }
             Villa model = _mapper.Map<Villa>(updateDTO);
 
+            model.CreatedDate= villa.CreatedDate;
+
             await _RepoVilla.UpdateAsync(model);
 
             _logger.LogInformation($"Villa update successful!");
