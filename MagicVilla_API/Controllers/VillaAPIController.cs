@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using MagicVilla_API.Data;
 using MagicVilla_API.Models;
 using MagicVilla_API.Models.Dto;
-using MagicVilla_API.Repository;
 using MagicVilla_API.Repository.IRepository;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 
@@ -168,7 +164,7 @@ namespace MagicVilla_API.Controllers
 
                 await _RepoVilla.RemoveAsync(villa);
 
-                _logger.LogInformation($"Villa delete successful");
+                _logger.LogInformation($"Villa delete successful with ID - {id}");
 
                 _apiResponse.StatusCode = HttpStatusCode.NoContent;
 
@@ -215,7 +211,7 @@ namespace MagicVilla_API.Controllers
 
                 await _RepoVilla.UpdateAsync(model);
 
-                _logger.LogInformation($"Villa update successful!");
+                _logger.LogInformation($"Villa update successful with ID - {id}!");
 
                 _apiResponse.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_apiResponse);
