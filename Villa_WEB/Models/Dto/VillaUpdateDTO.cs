@@ -17,7 +17,7 @@ namespace Villa_WEB.Models.Dto
         [Required]
         public string ImageURL { get; set; }
         public string Amenity { get; set; }
-        //public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         //[Required]
         //public DateTime UpdatedDate { get; set; }
 

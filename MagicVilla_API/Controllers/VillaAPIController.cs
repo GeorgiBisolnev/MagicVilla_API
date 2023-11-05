@@ -121,6 +121,8 @@ namespace MagicVilla_API.Controllers
 
                 Villa villa = _mapper.Map<Villa>(createDTO);
 
+                villa.CreatedDate = DateTime.Now;
+
                 await _RepoVilla.CreateAsync(villa);
 
                 _logger.LogInformation($"Villa create successful with ID - {villa.Id}");
@@ -207,6 +209,9 @@ namespace MagicVilla_API.Controllers
                     return NotFound();
                 }
                 Villa model = _mapper.Map<Villa>(updateDTO);
+
+                model.CreatedDate=villa.CreatedDate;
+                model.UpdatedDate = DateTime.Now;
 
                 await _RepoVilla.UpdateAsync(model);
 
