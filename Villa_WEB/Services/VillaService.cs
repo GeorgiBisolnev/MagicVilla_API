@@ -29,7 +29,7 @@ namespace Villa_WEB.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.DELETE,
-                Url = _urlAPI + "/api/VillaAPI" + id,
+                Url = _urlAPI + "/api/VillaAPI/" + id,
             });
         }
 
