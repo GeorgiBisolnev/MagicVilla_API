@@ -20,7 +20,7 @@ namespace Villa_WEB.Services
             {
                 ApiType = Data.Common.SD.ApiType.POST,
                 Data = dto,
-                Url = _urlAPI + "api/VillaAPI"
+                Url = _urlAPI + "/api/VillaAPI"
             });
         }
 
@@ -29,7 +29,7 @@ namespace Villa_WEB.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.DELETE,
-                Url = _urlAPI + "api/VillaAPI" + id,
+                Url = _urlAPI + "/api/VillaAPI" + id,
             });
         }
 
@@ -38,7 +38,7 @@ namespace Villa_WEB.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.GET,
-                Url = _urlAPI + "api/VillaAPI"
+                Url = _urlAPI + "/api/VillaAPI"
             });
         }
 
@@ -47,7 +47,7 @@ namespace Villa_WEB.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.GET,
-                Url = _urlAPI + "api/VillaAPI/" + id
+                Url = _urlAPI + "/api/VillaAPI/" + id
             });
         }
 
@@ -57,7 +57,7 @@ namespace Villa_WEB.Services
             {
                 ApiType = Data.Common.SD.ApiType.PUT,
                 Data = dto,
-                Url = _urlAPI + "api/VillaAPI/" + dto.Id,
+                Url = _urlAPI + "/api/VillaAPI/" + dto.Id,
             });
         }
     }

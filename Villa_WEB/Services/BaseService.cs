@@ -28,7 +28,7 @@ namespace Villa_WEB.Services
                 if (apiRequest.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
-                        Encoding.UTF8, "applicaion/json");
+                        Encoding.UTF8, "application/json");
                 }
 
                 switch (apiRequest.ApiType)
