@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Villa_WEB.Models.Dto
 {
@@ -10,5 +9,6 @@ namespace Villa_WEB.Models.Dto
         [Required]
         public int VillaId { get; set; }
         public string Details { get; set; }
+        public VillaDTO Villa { get; set; }
     }
 }

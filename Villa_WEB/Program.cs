@@ -12,6 +12,9 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddHttpClient<IVIllaService, VillaService>();
 builder.Services.AddScoped<IVIllaService, VillaService>();
 
+builder.Services.AddHttpClient<IVIllaNumberService, VillaNumberService>();
+builder.Services.AddScoped<IVIllaNumberService, VillaNumberService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
