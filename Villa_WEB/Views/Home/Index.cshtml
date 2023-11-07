@@ -17,7 +17,15 @@
                 <div class="col-8">
                     <p class="card-title text-warning" style="font-size:xx-large">@villa.Name</p>
                     <p class="card-text">
-                        @villa.Details
+                        @if (villa.Details.Count()>260)
+                        {
+                            @villa.Details.Substring(0, 260)
+                        }
+                        else
+                        {
+                            @villa.Details;
+                        }
+
                     </p>
                 </div>
                 <div class="col-12">
@@ -32,9 +40,9 @@
                         </div>
                         <div class="col-4">
                             <span class="text-warning float-end front-weight-bold pt-1" style="font-size:25px">
-                                лв.
+                                USD
                                 <span style="border-bottom:1px solid #ff6a00">
-                                    @villa.Rate.ToString("c")
+                                    @villa.Rate.ToString()$
                                 </span>
                             </span>
                         </div>
