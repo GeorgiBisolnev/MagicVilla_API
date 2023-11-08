@@ -56,17 +56,32 @@ namespace Villa_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateVillaNumber(VillaCreateDTO model)
+        public async Task<IActionResult> CreateVillaNumber(VillaNumberCreateVM  model)
         {
             if (ModelState.IsValid)
             {
-                var response = await _villaService.CreateAsyn<APIResponse>(model);
+                var response = await _villaNumberService.CreateAsyn<APIResponse>(model.VillaNumber);
 
                 if (response != null && response.IsSuccess == true)
                 {
-                    return RedirectToAction(nameof(IndexVilla));
+                    return RedirectToAction(nameof(IndexVillaNumber));
+                }
+                if (response.IsSuccess==false && response.ErrorMessages.Count>0)
+                {
+                    ModelState.AddModelError("ErrorMessages", "VillaNumber already exists");
                 }
 
+            }
+
+            var res = await _villaService.GetAllAsyc<APIResponse>();
+            if (res != null && res.IsSuccess == true)
+            {
+                model.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
+                    (Convert.ToString(res.Result)).Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString(),
+                    });
             }
             return View(model);
         }

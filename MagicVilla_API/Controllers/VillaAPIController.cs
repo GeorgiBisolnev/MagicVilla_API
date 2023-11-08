@@ -43,7 +43,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Geting all villas fails - {ex.ToString()}");
 
@@ -83,7 +83,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Get villa with ID {id} fails - {ex.ToString()}");
 
@@ -101,7 +101,7 @@ namespace MagicVilla_API.Controllers
             {
                 if (await _RepoVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
                 {
-                    ModelState.AddModelError("Custom Error", "Villa already exists!");
+                    ModelState.AddModelError("ErrorMessages", "Villa already exists!");
                     _logger.LogError($"Villa create error - Villa already exists!");
                     _apiResponse.StatusCode = HttpStatusCode.BadRequest;
                     _apiResponse.Result = ModelState;
@@ -132,7 +132,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Create villa fails - {ex.ToString()}");
 
@@ -151,7 +151,7 @@ namespace MagicVilla_API.Controllers
                 {
                     _logger.LogError($"Villa delete unsuccessful - id error");
                     _apiResponse.StatusCode = HttpStatusCode.BadRequest;
-                    _apiResponse.Errors = new List<string>() { "Villa delete unsuccessful - id error" };
+                    _apiResponse.ErrorMessages = new List<string>() { "Villa delete unsuccessful - id error" };
                     return BadRequest(_apiResponse);
                 }
                 var villa = await _RepoVilla.GetAsync(v => v.Id == id);
@@ -173,7 +173,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Delete villa with ID {id} fails - {ex.ToString()}");
 
@@ -193,7 +193,7 @@ namespace MagicVilla_API.Controllers
                 {
                     _logger.LogError($"Villa update unsuccessful - id error");
                     _apiResponse.StatusCode = HttpStatusCode.BadRequest;
-                    _apiResponse.Errors = new List<string>() { "Villa update unsuccessful - id error" };
+                    _apiResponse.ErrorMessages = new List<string>() { "Villa update unsuccessful - id error" };
                     return BadRequest(_apiResponse);
                 }
 
@@ -219,7 +219,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Update villa with ID {id} fails - {ex.ToString()}");
 
@@ -271,7 +271,7 @@ namespace MagicVilla_API.Controllers
             catch (Exception ex)
             {
                 _apiResponse.IsSuccess = false;
-                _apiResponse.Errors = new List<string>() { ex.ToString() };
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
 
                 _logger.LogError($"Update partial villa with ID {id} fails - ERROR: {ex.ToString()} " +
                     $"\nJSON patch document {JsonSerializer.Serialize(pacthDTO)}");
