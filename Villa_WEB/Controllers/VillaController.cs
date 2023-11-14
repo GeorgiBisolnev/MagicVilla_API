@@ -45,6 +45,7 @@ namespace Villa_WEB.Controllers
 
                 if (response!=null && response.IsSuccess==true)
                 {
+                    TempData["success"] = "Updated successfully!";
                     return RedirectToAction(nameof(IndexVilla));
                 }
                
@@ -74,6 +75,7 @@ namespace Villa_WEB.Controllers
 
                 if (response != null && response.IsSuccess == true)
                 {
+                    TempData["success"] = "Created successfully!";
                     return RedirectToAction(nameof(IndexVilla));
                 }
 
@@ -101,7 +103,8 @@ namespace Villa_WEB.Controllers
 
                 if (response != null && response.IsSuccess == true)
                 {
-                    return RedirectToAction(nameof(IndexVilla));
+                TempData["success"] = "Deleted successfully!";
+                return RedirectToAction(nameof(IndexVilla));
                 }
 
             return View(model);

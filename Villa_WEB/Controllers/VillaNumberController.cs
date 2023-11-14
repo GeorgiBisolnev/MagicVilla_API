@@ -62,6 +62,7 @@ namespace Villa_WEB.Controllers
 
                 if (response != null && response.IsSuccess == true)
                 {
+                    TempData["success"] = "Created successfully!";
                     return RedirectToAction(nameof(IndexVillaNumber));
                 }
                 if (response.IsSuccess==false && response.ErrorMessages.Count>0)
@@ -81,6 +82,7 @@ namespace Villa_WEB.Controllers
                         Value = i.Id.ToString(),
                     });
             }
+            TempData["error"] = "Check the errors and try again";
             return View(model);
         }
 
@@ -119,6 +121,7 @@ namespace Villa_WEB.Controllers
 
                 if (response != null && response.IsSuccess == true)
                 {
+                    TempData["success"] = "Updated!";
                     return RedirectToAction(nameof(IndexVillaNumber));
                 }
                 if (response.IsSuccess == false && response.ErrorMessages.Count > 0)
@@ -174,6 +177,7 @@ namespace Villa_WEB.Controllers
 
             if (response != null && response.IsSuccess == true)
             {
+                TempData["success"] = "Deleted!";
                 return RedirectToAction(nameof(IndexVillaNumber));
             }
 
