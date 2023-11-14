@@ -1,9 +1,9 @@
-﻿@model Villa_WEB.Models.VM.VillaNumberCreateVM
+﻿@model Villa_WEB.Models.VM.VillaNumberUpdateVM
 
-<form asp-action="CreateVillaNumber" asp-controller="VillaNumber">
+<form asp-action="UpdateVillaNumber" asp-controller="VillaNumber">
     <br />
     <div class="container border p-3">
-        <h1 class="text-primary">Create Villa Number</h1>
+        <h1 class="text-primary">Update Villa Number</h1>
         <hr />
         <div class="row">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -34,10 +34,10 @@
             </div>
 
             <div class="col-5 offset-2">
-                <a asp-action="IndexVilla" asp-controller="Villa" class="btn-primary btn form-control">All Villa's</a>
+                <a asp-action="IndexVillaNumber" asp-controller="VillaNumber" class="btn-primary btn form-control">All Villa Numbers</a>
             </div>
             <div class="col-5">
-                <input type="submit" value="Create" class="btn btn-success form-control" />
+                <input type="submit" value="Update" class="btn btn-success form-control" />
             </div>
         </div>
 

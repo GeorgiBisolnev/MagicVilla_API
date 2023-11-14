@@ -11,7 +11,8 @@ namespace Villa_WEB
             CreateMap<VillaDTO, VillaUpdateDTO>().ReverseMap();
 
             CreateMap<VillaNumberDTO, VillaNumberCreateDTO>().ReverseMap();
-            CreateMap<VillaNumberDTO,VillaNumberUpdateDTO>().ReverseMap();
+            CreateMap<VillaNumberDTO,VillaNumberUpdateDTO>().ReverseMap(); 
+            CreateMap<VillaNumberDTO, VillaNumberDeleteDTO>().ReverseMap();
         }
     }
 }
