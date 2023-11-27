@@ -14,50 +14,55 @@ namespace Villa_WEB.Services
             _urlAPI = configuration.GetValue<string>("ServiceUrls:VillaAPI");
         }
 
-        public Task<T> CreateAsyn<T>(VillaNumberCreateDTO dto)
+        public Task<T> CreateAsyn<T>(VillaNumberCreateDTO dto, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.POST,
                 Data = dto,
-                Url = _urlAPI + "/api/VillaNumberAPI"
+                Url = _urlAPI + "/api/VillaNumberAPI",
+                Token = token
             });
         }
 
-        public Task<T> DeleteAsyn<T>(int id)
+        public Task<T> DeleteAsyn<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.DELETE,
                 Url = _urlAPI + "/api/VillaNumberAPI/" + id,
+                Token = token
             });
         }
 
-        public Task<T> GetAllAsyc<T>()
+        public Task<T> GetAllAsyc<T>(string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.GET,
-                Url = _urlAPI + "/api/VillaNumberAPI"
+                Url = _urlAPI + "/api/VillaNumberAPI",
+                Token = token
             });
         }
 
-        public Task<T> GetAsync<T>(int id)
+        public Task<T> GetAsync<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.GET,
-                Url = _urlAPI + "/api/VillaNumberAPI/" + id
+                Url = _urlAPI + "/api/VillaNumberAPI/" + id,
+                Token = token
             });
         }
 
-        public Task<T> UpdateAsyn<T>(VillaNumberUpdateDTO dto)
+        public Task<T> UpdateAsyn<T>(VillaNumberUpdateDTO dto, string token)
         {            
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.PUT,
                 Data = dto,
                 Url = _urlAPI + "/api/VillaNumberAPI/" + dto.VillaNo,
+                Token = token
             });
         }
     }

@@ -1,0 +1,31 @@
+﻿@model Villa_WEB.Models.Dto.RegistrationRequestDTO
+
+
+<form method="post">
+    <div class="container border p-4">
+        <div class="row text-center">
+            <h1>Register</h1>
+        </div>
+    </div>
+    <div class="col-6 offset-3 pb-2">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+    <div class="col-6 offset-3 pb-2">
+        <input asp-for="UserName" type="text" class="form-control" placeholder="Username..."></input>
+    </div>
+    <div class="col-6 offset-3 pb-2">
+        <input asp-for="Name" type="text" class="form-control" placeholder="Name..."></input>
+    </div>
+    <div class="col-6 offset-3 pb-2">
+        <input asp-for="Password" type="text" class="form-control" placeholder="Password..."></input>
+    </div>
+
+    <div class="col-6 offset-3 pb-2">
+        <button type="submit" class="form-control"  value="Submit">Register</button>
+    </div>    
+    
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
