@@ -35,6 +35,7 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 30)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
             try
@@ -60,6 +61,7 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetVillaNumber")]
+        [ResponseCache(Duration = 30)]
         [ActionName(nameof(GetVillaNumber))]
         //[HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

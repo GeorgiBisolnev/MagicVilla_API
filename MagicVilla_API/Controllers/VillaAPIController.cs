@@ -29,16 +29,35 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [ResponseCache(Duration = 30)]
+        //[ResponseCache(CacheProfileName = "Default30")]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name ="filterOccupancy")]int? occupancy,
+            [FromQuery]string? search, int pageSize = 2, int pageNumber = 1)
         {
             try
             {
                 _logger.LogInformation($"Geting all villas");
 
-                IEnumerable<Villa> villaList = await _RepoVilla.GetAllAsync();
+                IEnumerable<Villa> villaList;
+
+                if ( occupancy != null )
+                {
+                    villaList = await _RepoVilla.GetAllAsync(o=> o.Occupancy == occupancy,pageSize:pageSize,pageNumber:pageNumber);
+                }
+                else
+                {
+                    villaList = await _RepoVilla.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = await _RepoVilla.GetAllAsync(s => s.Name.ToLower().Contains(search.ToLower()));
+                }
+
+                Pagination pagination = new Pagination { PageSize = pageSize, PageCount = pageNumber };
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
                 _apiResponse.Result = villaList;
                 _apiResponse.StatusCode = HttpStatusCode.OK;
 
@@ -57,6 +76,7 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
+        [ResponseCache(Duration = 30)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
