@@ -18,13 +18,15 @@ namespace MagicVilla_API.Repository
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly string secretkey;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
         public UserRepository(AppDbContext db, IConfiguration config, 
-            UserManager<ApplicationUser> userManager, Mapper mapper)
+            UserManager<ApplicationUser> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _mapper = mapper;
             _userManager = userManager;
             _dbContext = db;
             secretkey = config.GetValue<string>("ApiSettings:Secret");
+            _roleManager = roleManager;
         }
         public bool IsUniqueUser(string username)
         {
@@ -98,10 +100,21 @@ namespace MagicVilla_API.Repository
                 var result = await _userManager.CreateAsync(user, registrationRequestDTO.Password);
                 if (result.Succeeded)
                 {
+                    if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("admin"));
+                        await _roleManager.CreateAsync(new IdentityRole("customer"));
+                    }
                     await _userManager.AddToRoleAsync(user, "admin");
                     var userToReturn = _dbContext.ApplicationUsers.
                         FirstOrDefault(u => u.UserName == registrationRequestDTO.UserName);
                     return _mapper.Map<UserDTO>(userToReturn);
+                    //return new UserDTO()
+                    //{
+                    //    UserName = userToReturn.UserName,
+                    //    ID = userToReturn.Id,
+                    //    Name = userToReturn.Name,
+                    //};
                 }
             }
             catch (Exception ex)

@@ -33,7 +33,13 @@ builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 1;
+}).
     AddEntityFrameworkStores<AppDbContext>();
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
