@@ -35,9 +35,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="VillaNumber" asp-action="IndexVillaNumber">Villa Number</a>
                         </li>
                         
-                        @if (httpAcc.HttpContext.Session.GetString(SD.SessionToken) !=null &&
-                            httpAcc.HttpContext.Session.GetString(SD.SessionToken).ToString().Length>0)
+                        
+
+                    </ul>
+                    <ul class="navbar-nav">
+                            @if (User.Identity.IsAuthenticated)
                             {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" > Hello, @User.Identity.Name<a/>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">Logout</a>
                                 </li>
@@ -51,7 +57,6 @@
                                     <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Regitration</a>
                                 </li>
                             }
-
                     </ul>
                 </div>
             </div>

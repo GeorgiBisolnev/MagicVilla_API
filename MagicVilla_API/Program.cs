@@ -65,10 +65,10 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddControllers(option =>
 {
     //option.ReturnHttpNotAcceptable = true;
-    option.CacheProfiles.Add("Default30", new CacheProfile()
-    {
-        Duration = 30
-    });
+    //option.CacheProfiles.Add("Default30", new CacheProfile()
+    //{
+    //    Duration = 30
+    //});
 }
 ).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddEndpointsApiExplorer();
@@ -111,7 +111,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

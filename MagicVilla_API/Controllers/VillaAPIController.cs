@@ -76,7 +76,7 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
-        [ResponseCache(Duration = 30)]
+        //[ResponseCache(Duration = 30)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -125,7 +125,7 @@ namespace MagicVilla_API.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
+        public async Task<ActionResult<APIResponse>> CreateVilla([FromForm] VillaCreateDTO createDTO)
         {
             try
             {
@@ -150,6 +150,38 @@ namespace MagicVilla_API.Controllers
                 villa.CreatedDate = DateTime.Now;
 
                 await _RepoVilla.CreateAsync(villa);
+
+                if (createDTO.Image != null)
+                {
+                    string fileName = villa.Id + Path.GetExtension(createDTO.Image.FileName);
+                    string filePath = @"wwwroot\ProductImage\" + fileName;
+
+                    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    FileInfo file = new FileInfo(directoryLocation);
+
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+
+                    using (var fileStream = new FileStream(directoryLocation, FileMode.Create))
+                    {
+                        createDTO.Image.CopyTo(fileStream);
+                    }
+
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    villa.ImageURL = baseUrl;
+                    villa.ImageLocalPath = filePath;
+
+
+                }
+                else
+                {
+                    villa.ImageURL = "https://placehold.co/600x400";
+                }
+
+                await _RepoVilla.UpdateAsync(villa);
 
                 _logger.LogInformation($"Villa create successful with ID - {villa.Id}");
 

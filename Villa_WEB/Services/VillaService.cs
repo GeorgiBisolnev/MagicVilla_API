@@ -19,10 +19,11 @@ namespace Villa_WEB.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Data.Common.SD.ApiType.POST,
-                Data = dto,               
+                Data = dto,
                 Url = _urlAPI + "/api/VillaAPI",
-                Token = token
-            });
+                Token = token,
+                ContentType = Data.Common.SD.ContentType.MultipartFormData
+            }) ;
         }
 
         public Task<T> DeleteAsyn<T>(int id, string token)
@@ -62,7 +63,8 @@ namespace Villa_WEB.Services
                 ApiType = Data.Common.SD.ApiType.PUT,
                 Data = dto,
                 Url = _urlAPI + "/api/VillaAPI/" + dto.Id,
-                Token = token
+                Token = token,
+                ContentType = Data.Common.SD.ContentType.MultipartFormData
             });
         }
     }

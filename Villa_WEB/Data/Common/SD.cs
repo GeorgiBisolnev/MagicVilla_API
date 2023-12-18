@@ -10,5 +10,12 @@
             DELETE
         }
         public static string SessionToken = "JWTToken";
+        public static string  Admin = "admin";
+        public static string  Customer = "customer";
+        public enum ContentType
+        {
+            Json,
+            MultipartFormData
+        }
     }
 }
