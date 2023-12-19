@@ -48,7 +48,7 @@ namespace Villa_WEB.Controllers
 
                 if (response!=null && response.IsSuccess==true)
                 {
-                    TempData["success"] = "Updated successfully!";
+                    TempData["success"] = "Created successfully!";
                     return RedirectToAction(nameof(IndexVilla));
                 }
                

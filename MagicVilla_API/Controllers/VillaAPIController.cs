@@ -3,6 +3,7 @@ using MagicVilla_API.Models;
 using MagicVilla_API.Models.Dto;
 using MagicVilla_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -171,7 +172,7 @@ namespace MagicVilla_API.Controllers
                     }
 
                     var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
-                    villa.ImageURL = baseUrl;
+                    villa.ImageURL = baseUrl + "/ProductImage/" + fileName;
                     villa.ImageLocalPath = filePath;
 
 
@@ -227,6 +228,17 @@ namespace MagicVilla_API.Controllers
                     return NotFound();
                 }
 
+                if (!string.IsNullOrEmpty(villa.ImageLocalPath))
+                {
+                    var oldFilepathDir = Path.Combine(Directory.GetCurrentDirectory(), villa.ImageLocalPath);
+                    FileInfo file = new FileInfo(oldFilepathDir);
+
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
+
                 await _RepoVilla.RemoveAsync(villa);
 
                 _logger.LogInformation($"Villa delete successful with ID - {id}");
@@ -253,7 +265,7 @@ namespace MagicVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromForm] VillaUpdateDTO updateDTO)
         {
             try
             {
@@ -276,6 +288,42 @@ namespace MagicVilla_API.Controllers
 
                 model.CreatedDate=villa.CreatedDate;
                 model.UpdatedDate = DateTime.Now;
+
+                if (updateDTO.Image != null)
+                {
+                    if (!string.IsNullOrEmpty(model.ImageLocalPath))
+                    {
+                        var oldFilepathDir = Path.Combine(Directory.GetCurrentDirectory(), model.ImageLocalPath);
+                        FileInfo file = new FileInfo(oldFilepathDir);
+
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+                    }
+
+                    string fileName = villa.Id + Path.GetExtension(updateDTO.Image.FileName);
+                    string filePath = @"wwwroot\ProductImage\" + fileName;
+
+                    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+
+
+                    using (var fileStream = new FileStream(directoryLocation, FileMode.Create))
+                    {
+                        updateDTO.Image.CopyTo(fileStream);
+                    }
+
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    model.ImageURL = baseUrl + "/ProductImage/" + fileName;
+                    model.ImageLocalPath = filePath;
+
+
+                }
+                else
+                {
+                    model.ImageURL = "https://placehold.co/600x400";
+                }
 
                 await _RepoVilla.UpdateAsync(model);
 
